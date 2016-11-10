@@ -121,3 +121,5 @@ Esta orden devuelve un "docker login..." con unas credenciales de poca duración
 	docker tag <local image id> <aws account id>.dkr.ecr.<aws region>.amazonaws.com/repo1:latest
 	
 BVr05zDj7v/JhNMtXqklY+7LslQzY6MezG+k6cop
+
+yCYDDJSZMwAdNUOUFrW4cnqNrS38OzjPXhoft5qf

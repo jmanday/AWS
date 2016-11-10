@@ -2,21 +2,15 @@
 Esta rama se basa en el servicio de almacenamiento de imagenes Docker Amazon EC2 Container Registry, mediante el se gestionan las diferentes imagenes a modo de repositorio. Usa un modelo parecido a GitHub y se pueden definir permisos a los usuarios para que permitirles o denegarles ciertas operaciones a nivel de repositorio.
 
 ##Configuración del entorno local
-Para la configuración del entorno local se va utilzar la herramienta de Amazon **AWS CLI** aunque también es posible realizarla a través de la interfaz web. A través de esta herramienta se creará una serie de usuarios e imágenes Docker, a los que se les dará un conjunto de permisos sobre las diferentes imágenes.
+Para la configuración del entorno local se va utilzar la herramienta de Amazon **AWS CLI** aunque también es posible realizarla a través de la interfaz web. A través de esta herramienta se realizará todo el proceso de configuración y todas los pasos necesarios para almacenar una imagen Docker en un repositorio ECR.
 
-Una vez instalado el cliente AWS por línea de comandos de amazon, en este caso desde el gestor de paqutes de python **pip**, hay que configurar el sistem local para 
-que el AWS Cli hable a la cuenta de Amazon AWS. Para ello es necesario proporcionar el **Access Key Id, Secret Key y la regisón mediante el siguiente comando:
+Una vez instalado el cliente AWS por línea de comandos de amazon, en este caso desde el gestor de paqutes de python **pip**, lo primero que se necesita es configurar el perfil del usuario AWS en la máquina desde donde se quiere realizar las operaciones con ECR. Para ello es necesario proporcionar los datos del usuario de **Access Key Id**, **Secret Key** y la región mediante el siguiente comando:
 
-	aws configure --profile admin
-	
-A través del siguiente comando podemos obtener una lista de claves válidas:
+	aws configure --profile NAME_USER
 
-	aws --profile admin iam list-access-keys
-	
-Este comando puede lanzar un error al decirnos que el usuario no esta autorizado para ejecutar la operacion *list-access-keys** de iam. Para ello es necesario añadir una política de permisos sobre ese servicio en **Amazon IAM** que permite ejecutar esa operación.
 
 ##Creando políticas IAM
-Como se ha comentado anteriormente, los usurarios por defecto no tienen ningún permiso en AWS, por lo que es necesario concederlos bajo alguna política. En este caso se va a crear una política para permitirá a los usuarios simplemente solicitar un token de autentificación. Para ello se creará un fichero con la siguiente estructura a partir de la siguiente orden:
+Como se ha comentado anteriormente, los usurarios por defecto no tienen ningún permiso en AWS, por lo que es necesario concederlos bajo alguna política. En este caso se va a crear una política para permitir a los usuarios simplemente solicitar un token de autentificación necesario para la comunicación con ecr. Para ello se creará un fichero json con la siguiente estructura a partir de la siguiente orden:
 
 	cat << EOM > authPolicy.json
 	{
@@ -34,7 +28,7 @@ Como se ha comentado anteriormente, los usurarios por defecto no tienen ningún 
 
 A continuación se ejecutará  el siguiente comando:
 
-	aws --profile admin iam create-policy --policy-name=authOnly --policy-document file://authPolicy.json
+	aws --profile NAME_USER iam create-policy --policy-name=authOnly --policy-document ./authPolicy.json
 	{
   		"Policy": {
     		"PolicyName": "authOnly",
@@ -52,9 +46,9 @@ A continuación se ejecutará  el siguiente comando:
 Una vez creadas las políticas ya se pueden crear usuarios y asignárselas.
 
 ##Crear usuarios
-Se crearán tres usuarios a los que se les asignarán permisos de para autentificarse. Con el siguiente comando se crean usuarios:
+A través del perfil de un usuario de AWS se pueden crear otros usuarios con el siguiente comando:
 
-	aws --profile=admin iam create-user --user-name=usr1
+	aws --profile=NAME_USER iam create-user --user-name=usr1
 	
 A través de este otro comando le asignamos una política:
 
@@ -109,17 +103,21 @@ Es necesario crear el documento con la siguiente estructura:
 
 Lo siguiente es asignarle el documento de política al repositorio:
  
-	aws --profile admin ecr set-repository-policy --repository-name repo1 --policy-text file://usr1Policy.json 
+	aws ecr set-repository-policy --repository-name repo1 --policy-text ./usr1Policy.json --profile usr1
 	
 ##Subiendo imágenes al repositorio
-Para poder subir imágenes a un repositorio es necesario habilitar el demonio local docker para autentificar con el registro y poder trabajar con el. De esta forma se autentifica el cliente Docker en el Amazon ECR:
+Es necesario obtener las credenciales de Amazon ECR para poder trabajar con el cliene de Docker. A través de esta comando se obtienen para un perfil de usuario previamente configurado:
 
-	aws --profile usr1 ecr get-login
+	aws ecr get-login --profile usr1
 	
-Esta orden devuelve un "docker login..." con unas credenciales de poca duración. Una vez que se tienen las credenciales de Docker ya es posible subir imagenes al repositorio previamente creado:
+Esta orden devuelve un "docker login -u AWS -p AQ....." con unas credenciales de poca duración. Una vez que se tienen las credenciales de Docker hay que ejecutar el comando que nos devuelve para autentificarse como usuario de Docker:
 
-	docker tag <local image id> <aws account id>.dkr.ecr.<aws region>.amazonaws.com/repo1:latest
+	docker login -u AWS -p AQ.....
+
+Una vez registrado le decimos a docker el tag de la imagen y el repositoro al que la queremos subir:
+
+	docker tag REPOSITORY MY_TAG
 	
-BVr05zDj7v/JhNMtXqklY+7LslQzY6MezG+k6cop
+Con la siguiente orden se sube la imagen al respositorio indicado:
 
-yCYDDJSZMwAdNUOUFrW4cnqNrS38OzjPXhoft5qf
+	docker push MY_TAG

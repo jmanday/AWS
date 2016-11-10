@@ -119,3 +119,5 @@ Para poder subir imágenes a un repositorio es necesario habilitar el demonio lo
 Esta orden devuelve un "docker login..." con unas credenciales de poca duración. Una vez que se tienen las credenciales de Docker ya es posible subir imagenes al repositorio previamente creado:
 
 	docker tag <local image id> <aws account id>.dkr.ecr.<aws region>.amazonaws.com/repo1:latest
+	
+BVr05zDj7v/JhNMtXqklY+7LslQzY6MezG+k6cop

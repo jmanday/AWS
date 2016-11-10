@@ -1,5 +1,5 @@
 # Amazon-ECR
-Esta rama se basa en el servicio de almacenamiento de imagenes Docker Amazon EC2 Container Registry, mediante el se gestionan las diferentes imagenes a modo de repositorio. Usa un modelo parecido a GitHub y se pueden definir permisos a los usuarios para que permitirles o denegarles ciertas operaciones a nivel de repositorio.
+Esta rama se basa en el servicio de almacenamiento de imagenes Docker Amazon EC2 Container Registry, mediante el se gestionan las diferentes imagenes a modo de repositorio. Usa un modelo parecido a GitHub y se pueden definir permisos a los usuarios para que permitirles o denegarles ciertas operaciones a nivel de repositorio. A través del **Docker CLI** es posible poder realizar operaciones para subir o descargar imágenes Docker desde el repositorio creado en **ECS**.
 
 ##Configuración del entorno local
 Para la configuración del entorno local se va utilzar la herramienta de Amazon **AWS CLI** aunque también es posible realizarla a través de la interfaz web. A través de esta herramienta se realizará todo el proceso de configuración y todas los pasos necesarios para almacenar una imagen Docker en un repositorio ECR.
@@ -105,12 +105,12 @@ Lo siguiente es asignarle el documento de política al repositorio:
  
 	aws ecr set-repository-policy --repository-name repo1 --policy-text ./usr1Policy.json --profile usr1
 	
-##Subiendo imágenes al repositorio
+##Trabajando con imágenes en el repositorio
 Es necesario obtener las credenciales de Amazon ECR para poder trabajar con el cliene de Docker. A través de esta comando se obtienen para un perfil de usuario previamente configurado:
 
 	aws ecr get-login --profile usr1
 	
-Esta orden devuelve un "docker login -u AWS -p AQ....." con unas credenciales de poca duración. Una vez que se tienen las credenciales de Docker hay que ejecutar el comando que nos devuelve para autentificarse como usuario de Docker:
+Esta orden devuelve un "**docker login -u AWS -p AQ.....**" con unas credenciales de poca duración. Una vez que se tienen las credenciales de Docker hay que ejecutar el comando que nos devuelve para autentificarse como usuario de Docker:
 
 	docker login -u AWS -p AQ.....
 
@@ -121,3 +121,7 @@ Una vez registrado le decimos a docker el tag de la imagen y el repositoro al qu
 Con la siguiente orden se sube la imagen al respositorio indicado:
 
 	docker push aws_account_id.dkr.ecr.name_region.amazonaws.com/name_repository
+	
+De la misma forma es posible traerse imágenes del respotirio con la siguiente orden:
+
+	docker pull aws_account_id.dkr.ecr.name_region.amazonaws.com/name_repository

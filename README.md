@@ -116,8 +116,8 @@ Esta orden devuelve un "docker login -u AWS -p AQ....." con unas credenciales de
 
 Una vez registrado le decimos a docker el tag de la imagen y el repositoro al que la queremos subir:
 
-	docker tag REPOSITORY MY_TAG
+	docker tag REPOSITORY:TAG MY_IMAGE_TAG
 	
 Con la siguiente orden se sube la imagen al respositorio indicado:
 
-	docker push MY_TAG
+	docker push aws_account_id.dkr.ecr.name_region.amazonaws.com/name_repository

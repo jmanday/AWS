@@ -1,5 +1,5 @@
 # Amazon-ECR
-Esta rama se basa en el servicio de almacenamiento de imagenes Docker Amazon EC2 Container Registry, mediante el se gestionan las diferentes imagenes a modo de repositorio. Usa un modelo parecido a GitHub y se pueden definir permisos a los usuarios para que permitirles o denegarles ciertas operaciones a nivel de repositorio. A través del **Docker CLI** es posible poder realizar operaciones para subir o descargar imágenes Docker desde el repositorio creado en **ECS**.
+En esta rama se documenta en el servicio de almacenamiento de imagenes **Docker Amazon EC2 Container Registry**, mediante el cual se gestionan las diferentes imagenes Docker a modo de repositorio. Usa un modelo parecido a GitHub y se pueden definir permisos a los usuarios para permitirles o denegarles ciertas operaciones a nivel de repositorio. A través del **Docker CLI** es posible poder realizar operaciones para subir o descargar imágenes Docker desde el repositorio creado en **ECS**.
 
 ##Configuración del entorno local
 Para la configuración del entorno local se va utilzar la herramienta de Amazon **AWS CLI** aunque también es posible realizarla a través de la interfaz web. A través de esta herramienta se realizará todo el proceso de configuración y todas los pasos necesarios para almacenar una imagen Docker en un repositorio ECR.

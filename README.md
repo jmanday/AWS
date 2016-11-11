@@ -69,4 +69,4 @@ Para registar una definición de tarea mediante el fichero JSON se utiliza el si
 	
 Esta definición de tarea es registrada en la familia que se indicó en el campo *family* del fichero JSON. Es importante conocer este parámetro porque cuando se ejecuta una definición de tareas, se hacen a través de una *family*, es decir, lo que se ejecuta es una familia de tareas:
 
-	aws ecr run-task --task-definition NAME_FAMILY
+	aws ecs run-task --task-definition NAME_FAMILY

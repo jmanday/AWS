@@ -65,7 +65,7 @@ La tarea definida en el anterior fichero JSON especifica la creación de dos con
 
 Para registar una definición de tarea mediante el fichero JSON se utiliza el siguiente comando:
 
-	aws ecs register-task-definition --cli-input-json ./NAME_FILE.json
+	aws ecs register-task-definition --cli-input-json file://NAME_FILE.json
 	
 Esta definición de tarea es registrada en la familia que se indicó en el campo *family* del fichero JSON. Es importante conocer este parámetro porque cuando se ejecuta una definición de tareas, se hacen a través de una *family*, es decir, lo que se ejecuta es una familia de tareas:
 

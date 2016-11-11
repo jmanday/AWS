@@ -62,3 +62,11 @@ Una vez que la imagen de Docker ha sido creada y subida al repositorio de Amazon
 	}
 	
 La tarea definida en el anterior fichero JSON especifica la creación de dos contenedores en base a una imagen que por defecto es descargada del repositorio **Amazon Docker Hub**, aunque es posible modificarlo para que tome una imagen de un repositorio propio de **ECR**.
+
+Para registar una definición de tarea mediante el fichero JSON se utiliza el siguiente comando:
+
+	aws ecs register-task-definition --cli-input-json ./NAME_FILE.json
+	
+Esta definición de tarea es registrada en la familia que se indicó en el campo *family* del fichero JSON. Es importante conocer este parámetro porque cuando se ejecuta una definición de tareas, se hacen a través de una *family*, es decir, lo que se ejecuta es una familia de tareas:
+
+	aws ecr run-task --task-definition NAME_FAMILY

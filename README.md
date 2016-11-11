@@ -6,13 +6,13 @@ Esta rama esta orientada al uso del servicio de Amazon EC2, mediante el cual hac
 
 - **Preview**
 
-En este fichero se especificaran los pasos para conectarse a una instancia remota Linux EC2 de AWS desde una máquina local.
+En esta parte se especificaran los pasos para conectarse a una instancia remota Linux EC2 de AWS desde una máquina local.
 
 Lo primero que debemos hacer es crearnos nuestra instancia de AWS EC2 seleccionando el tipo de AMI (Amazon Machine Image) que vamos a querer. En este caso será una Amazon Linux AMI, que soporta EBS e incluye AWS Command Line Tools, Python, Ruby, Perl y Java. Además los repositorios de esta imagen incluyen los paquetes de Docker, PHP,  MySQL, PostgreSQL entre otros. 
 
 Lo siguiente será  elegir el tipo de instancia en cuanto a prestaciones, CPU, memoria, almacenamiento, etc. Una vez escogido el tipo de instancia lo siguiente será configurarla en cuanto a los parámetros de crear una nueva subred o un nuevo rol IAM. Después se le añade el almacenamiento, por defecto es un volumen SSD de 8 GB de capacidad. Es posible también asignarle un nombre (tag) para referirse a ella. Ya por último configuramos los grupos de seguridad para permitir el acceso de tráfico entrante a nuestra máquina remota añadiendo reglas en las que se deben indicar tanto el protocolo soportado, el puerto por el que escuchará, y las direcciones ip que podrán enviar tráfico a la instancia EC2.
 
-Una vez que ya se ha configurado la instancia EC2 y se ha lanzado, lo siguiente será cumplir con una serie de requisitos necesarios para poder realizar la conexión a través de SSH:
+Una vez que ya se ha configurado la instancia EC2 y se ha lanzado, lo siguiente será cumplir con una serie de requisitos necesarios para poder realizar la conexión a través de SSH.
 
 -**Requisitos**
 
@@ -26,7 +26,7 @@ Una vez que ya se ha configurado la instancia EC2 y se ha lanzado, lo siguiente 
 
 5. Localizar la clave privada (la ruta completa del fichero .pem previamente creado - Key pair name y que se encuentra descargado en el host local).
 
-6. Habilitar el trafico SSH entrante desde la IP del host local a la instancia (asegurar en este caso que el grupo de seguridad asociado con la instancia lo permite, por defecto no viene habilitado).
+6. Habilitar el trafico SSH entrante en la instancia remota desde la IP del host local (asegurar en este caso que el grupo de seguridad asociado con la instancia lo permite, por defecto no viene habilitado).
 
 -**Conectar a instancia EC2**
 
